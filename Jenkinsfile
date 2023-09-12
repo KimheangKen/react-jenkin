@@ -1,8 +1,9 @@
 pipeline {
     agent any
     tools {
-        nodejs 'nodejs'
+        nodejs 'nodejs' // Use the same name you configured in Jenkins
     }
+
     parameters {
         choice(name:'VERSION', choices:['1.0', '1.1', '1.2'], description:'Choose the version of the project')
 
