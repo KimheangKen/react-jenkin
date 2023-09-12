@@ -42,10 +42,11 @@ pipeline {
                     def sshKeyCredential = credentials('4472e56f-6a43-4a72-b7af-ce82d3684381') // Use the credential ID you created earlier
 
                     sh """
-                    ssh -i \${sshKeyCredential} -o StrictHostKeyChecking=no manager@35.240.214.239 '\${dockerCmd}'
+                    ssh -i \${sshKeyCredential} -o StrictHostKeyChecking=no manager@35.240.214.239 "\${dockerCmd}"
                     """
                 }
             }
         }
+
     }
 }
