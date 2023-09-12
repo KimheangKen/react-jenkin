@@ -25,7 +25,7 @@ pipeline {
         }
         stage('Build Image') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'docker-hub-repo', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                withCredentials([usernamePassword(credentialsId: '86f466ab-0366-4461-8d22-cc40fb1d489b', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                     sh 'docker build -t kimheang68/react-jenkin .'
                     sh "echo $PASS | docker login -u $USER --password-stdin"
                     sh 'docker push kimheang68/react-jenkin'
