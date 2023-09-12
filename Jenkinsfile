@@ -26,18 +26,18 @@ pipeline {
         stage('Build Image') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'docker-hub-repo', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                    sh 'docker build -t jennykibiri/sample-react-app .'
+                    sh 'docker build -t kimheang68/react-jenkin .'
                     sh "echo $PASS | docker login -u $USER --password-stdin"
-                    sh 'docker push jennykibiri/sample-react-app'
+                    sh 'docker push kimheang68/react-jenkin'
                 }
             }
         }
         stage ('Deploy') {
             steps {
                 script {
-                    def dockerCmd = 'docker run  -p 3000:3000 -d jennykibiri/sample-react-app:latest'
+                    def dockerCmd = 'docker run  -p 3000:3000 -d kimheang68/react-jenkin:latest'
                     sshagent(['ec2-server-key']) {
-                        sh "ssh -o StrictHostKeyChecking=no ec2-user@3.92.144.96 ${dockerCmd}"
+                        sh "ssh -o StrictHostKeyChecking=no manager@35.240.214.239 ${dockerCmd}"
                     }
                 }
             }
