@@ -38,10 +38,7 @@ pipeline {
         stage ('Deploy') {
             steps {
                 script {
-                    def dockerCmd = 'docker run  -p 3000:3000 -d kimheang68/react-jenkin:latest'
-                    sshagent(['4472e56f-6a43-4a72-b7af-ce82d3684381']) {
-                        sh "ssh -o StrictHostKeyChecking=no manager@35.240.214.239 ${dockerCmd}"
-                    }
+                    sh 'docker run  -p 3000:80 -d kimheang68/react-jenkin:latest'
                 }
             }
         }
