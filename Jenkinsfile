@@ -3,6 +3,9 @@ pipeline {
     tools {
         nodejs 'NodeJS'
     }
+    environment {
+        IMAGE_NAME = 'kimheang68/react-jenkin'   
+    }
 
     stages {
         stage('Build') {
@@ -22,9 +25,9 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: '86f466ab-0366-4461-8d22-cc40fb1d489b', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                     script {
-                        sh 'docker build -t kimheang68/react-jenkin .'
+                        sh 'docker build -t ${env.IMAGE_NAME} .'
                         sh "echo \$PASS | docker login -u \$USER --password-stdin"
-                        sh 'docker push kimheang68/react-jenkin'
+                        sh 'docker push ${env.IMAGE_NAME}'
                     }
                 }
             }
@@ -33,7 +36,7 @@ pipeline {
         stage ('Deploy') {
             steps {
                 script {
-                    sh 'docker run  -p 3000:80 -d kimheang68/react-jenkin:latest'
+                    sh 'docker run  -p 3000:80 -d ${env.IMAGE_NAME}:latest'
                 }
             }
         }
