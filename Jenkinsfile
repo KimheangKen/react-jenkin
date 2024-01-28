@@ -137,7 +137,7 @@ pipeline {
             steps {
                 script {
                     try {
-                        build job: 'fintrack-ui-pipeline-2', parameters: [string(name: 'DOCKERTAG', value: env.BUILD_NUMBER)]
+                        build job: 'demo-ui-pipeline2', parameters: [string(name: 'DOCKERTAG', value: env.BUILD_NUMBER)]
                         // sendTelegramMessage("✅ Trigger ManifestUpdate stage succeeded\nVersion: ${BUILD_INFO}\nCommitter: ${COMMITTER}\nBranch: ${BRANCH}")
                     } catch (Exception e) {
                         currentBuild.result = 'FAILURE'
