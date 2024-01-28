@@ -23,7 +23,7 @@ export default function MainComponent() {
     },
     {
       id: 3,
-      title: "kirirom",
+      title: "Batdeng",
       description:
         "Kirirom National Park, a high altitude plateau, is known for its unique high elevation pine forest, which forms the headwaters for numerous streams feeding Kampong 	   	   Speu Town.",
       status: "forest",
