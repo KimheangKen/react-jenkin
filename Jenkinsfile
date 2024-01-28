@@ -4,7 +4,7 @@ pipeline {
     // }
     agent any
     tools {
-        nodejs 'NodeJS'
+        nodejs 'nodejs'
     }
     environment {
         DOCKER_REGISTRY = 'kimheang68'
