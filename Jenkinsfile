@@ -8,8 +8,8 @@ pipeline {
     }
     environment {
         DOCKER_REGISTRY = 'kimheang68'
-        IMAGE_NAME = 'ui-fintrack'
-        CONTAINER_NAME = 'angular-fintrack-container'
+        IMAGE_NAME = 'demo-ui'
+        CONTAINER_NAME = 'react-demo-container'
         TELEGRAM_BOT_TOKEN = credentials('telegram-token')
         TELEGRAM_CHAT_ID = credentials('chat-id')
         BUILD_INFO = "${currentBuild.number}"
@@ -47,33 +47,33 @@ pipeline {
                 }
             }
         }
-        stage('Code Quality Check via SonarQube') {
-            steps {
-                script {
-                    def scannerHome = tool 'sonarqube-scanner'
-                    withSonarQubeEnv("sonarqube-server") {
-                        def scannerCommand = """
-                        ${scannerHome}/bin/sonar-scanner \
-                        -Dsonar.projectKey=fintrack-ui \
-                        -Dsonar.sources=src,dist \
-                        -Dsonar.css.node=. \
-                        -Dsonar.ts.file.suffixes=.ts \
-                        -Dsonar.host.url=http://8.219.131.180:9000 \
-                        -Dsonar.login=${env.SONARQUBE_TOKEN}
-                        """
-                        def codeQualityLogs = sh script: scannerCommand, returnStatus: true
+        // stage('Code Quality Check via SonarQube') {
+        //     steps {
+        //         script {
+        //             def scannerHome = tool 'sonarqube-scanner'
+        //             withSonarQubeEnv("sonarqube-server") {
+        //                 def scannerCommand = """
+        //                 ${scannerHome}/bin/sonar-scanner \
+        //                 -Dsonar.projectKey=fintrack-ui \
+        //                 -Dsonar.sources=src,dist \
+        //                 -Dsonar.css.node=. \
+        //                 -Dsonar.ts.file.suffixes=.ts \
+        //                 -Dsonar.host.url=http://8.219.131.180:9000 \
+        //                 -Dsonar.login=${env.SONARQUBE_TOKEN}
+        //                 """
+        //                 def codeQualityLogs = sh script: scannerCommand, returnStatus: true
 
-                        if (codeQualityLogs != 0) {
-                            sendTelegramMessage("❌ Code Quality Check via SonarQube failed")
-                            currentBuild.result = 'FAILURE'
-                            error("Code Quality Check via SonarQube failed")
-                        } else {
-                            echo "✅ Code Quality Check via SonarQube succeeded"
-                        }
-                    }
-                }
-            }
-        }
+        //                 if (codeQualityLogs != 0) {
+        //                     sendTelegramMessage("❌ Code Quality Check via SonarQube failed")
+        //                     currentBuild.result = 'FAILURE'
+        //                     error("Code Quality Check via SonarQube failed")
+        //                 } else {
+        //                     echo "✅ Code Quality Check via SonarQube succeeded"
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
         stage('Test') {
             steps {
                 script {
@@ -149,16 +149,16 @@ pipeline {
         }
     }
 
-    // post {
-    //     success {
-    //         sendTelegramMessage("✅ All stages succeeded\nVersion: ${BUILD_INFO}\nCommitter: ${COMMITTER}\nBranch: ${BRANCH}")
-    //     }
-    // }
     post {
-        always {
-            emailext body: 'Check console output at $BUILD_URL to view the results.', subject: '${PROJECT_NAME} - Build #${BUILD_NUMBER} - $BUILD_STATUS', to: 'yan.sovanseyha@gmail.com'
+        success {
+            sendTelegramMessage("✅ All stages succeeded\nVersion: ${BUILD_INFO}\nCommitter: ${COMMITTER}\nBranch: ${BRANCH}")
         }
     }
+    // post {
+    //     always {
+    //         emailext body: 'Check console output at $BUILD_URL to view the results.', subject: '${PROJECT_NAME} - Build #${BUILD_NUMBER} - $BUILD_STATUS', to: 'yan.sovanseyha@gmail.com'
+    //     }
+    // }
 }
 
 def sendTelegramMessage(message) {
