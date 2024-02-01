@@ -7,7 +7,7 @@ pipeline {
         nodejs 'nodejs'
     }
     environment {
-        DOCKER_REGISTRY = 'kimheang68'
+        DOCKER_REGISTRY = 'chhinghor'
         IMAGE_NAME = 'demo-ui'
         CONTAINER_NAME = 'react-demo-container'
         TELEGRAM_BOT_TOKEN = credentials('telegram-token')
